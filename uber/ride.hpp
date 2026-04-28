@@ -19,6 +19,7 @@ class Ride {
         void setDriver(Driver* driver);
         void setPayment(Payment* payment);
         void setRideStatus(RIDE_STATUS rideStatus);
+        double calculateFare();
         string getRiderId();
         string getDriverId();
         RIDE_STATUS getRideStatus();

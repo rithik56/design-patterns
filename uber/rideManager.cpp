@@ -97,12 +97,8 @@ void RideManager::assignRide(Ride* ride) {
         }
     }
 
-    Location* dropLocation = ride->getDropLocation();
-
-    int fareDistance = abs(pickupLocation->getLatitude() - dropLocation->getLatitude()) + abs(pickupLocation->getLongitude() - dropLocation->getLongitude());
-
     ride->setDriver(nearestDriver);
-    ride->setPayment(new Payment(fareDistance * 7.3));
+    ride->setPayment(new Payment(ride->calculateFare()));
     ride->setRideStatus(RIDE_STATUS::ASSIGNED);
 }
 

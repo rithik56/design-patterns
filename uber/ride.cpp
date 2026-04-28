@@ -62,3 +62,12 @@ double Ride::getFare() {
 PAYMENT_STATUS Ride::getPaymentStatus() {
     return this->payment->getStatus();
 }
+
+double Ride::calculateFare() {
+    Location* pickupLocation = this->pickup;
+    Location* dropLocation = this->drop;
+
+    int fareDistance = abs(pickupLocation->getLatitude() - dropLocation->getLatitude()) + abs(pickupLocation->getLongitude() - dropLocation->getLongitude());
+
+    return fareDistance * 7.3;
+}
