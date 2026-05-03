@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common.hpp"
+#include "location.hpp"
 
 class User {
     protected:
