@@ -1,0 +1,34 @@
+Users can browse restaurants
+Add items to cart and place orders
+Restaurants accept/reject orders
+Assign delivery partner
+Track order status
+Handle payments
+Maintain order history
+
+Entities - User, Cart, Item, Restaurant, Order, OrderManager, DeliveryPartner, payments
+
+User -> fields - id, name, cart, orderHistory || methods - getName(), getId(), addItem(), placeOrder(), showOrderHistory()
+
+DeliveryPartner -> fields - id, name, status, currentLocation || methods - getName(), getId(), startDelivery(), completeDelivery(), setStatus(), setCurrentLocation, getStatus(), getCurrentLocation()
+
+Restaurants -> fields - id, name, vector<items> || methods - handleOrder(), addItem(), removeItem()
+
+Item -> fields - id, name, price || method - getId(), getName(), getPrice()
+
+Payment - as usual
+
+Cart -> fields - mp, restaurant, double amount || methods - addItem(item, restaurant) || removeItem(item) || getAmount()
+
+Order -> fields - User, deliveryPartner, Restaurant, Payment, status, list<Items>, startTime, endTime || methods -> getUser(), getDeliveryPartner(), getRestaurant(), getPayment(), getStatus(), getItems(), processPayment()
+
+OrderManager -> fields - users, deliveryPartners, orders, restaurant || methods - getUsers(), getDeliveryPartners(), getOrders(), assignOrder(), setOrderStatus(), placeOrder(), addUser(), addDeliveryPartner(), addRestaurant()
+
+AssignPartnerStrategy -> abstract method - assignPartner() 
+
+NearestPartnerStrategy -> implement assignPartner() 
+
+Location - as usual
+
+
+

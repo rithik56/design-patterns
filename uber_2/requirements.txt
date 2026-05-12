@@ -1,0 +1,10 @@
+Users can request rides
+Drivers can accept/reject rides
+Match nearest available driver
+Track ride status
+Fare calculation based on distance/time
+Payment after ride completion
+Support ride history
+
+entities - User, Ride, Driver, FareCalculation, Payment, Location, RideManager
+
