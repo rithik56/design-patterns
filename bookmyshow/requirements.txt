@@ -1,0 +1,66 @@
+Movie Ticket Booking System - BookMyShow
+
+Entities
+-------
+
+1. Theatre
+2. Screen
+3. Seat - Normal, Premium, VIP
+4. Show
+5. Movie
+6. Booking
+7. User
+8. Payment (their could be different payment modes)
+9. Location
+10. BookingManager
+
+When user wants to book the movie tickets, he doesn't care about the AUDI which he will get in movie theatre
+If I want to watch movie A in T theatre at D date, then I need to display all the shows which are showing that movie at that particular date.
+can 2 AUDIs simulatenously run the same movie at the same time. I think yes, they can show that. Need to handle that scenario but not a priority
+I will keep the schedule for max 7 days. 
+
+Choose appropriate data structures for storage. It should not be awakard.
+
+BookingManager -
+
+Fields - singleton instance
+Functions - addTheatre(), displayMovieShows(Movie*, Location*) return array of theatres closest to current location and then that will display all movie shows running on that particular day
+
+Theatre - 
+
+Fields - id, name, location, screens
+Functions - Theatre(), addScreen(), removeScreen(), getMovieSchedule(Movie*, Date) return array of shows which are showing that particular movie, getSchedule() return array of shows grouped by movie and inside movie sorted by startTiming.
+
+Screen -
+
+Fields - id, Theatre*, Schedule, Seats, (shows will be grouped according to movie, and inside each movie they will be scheduled according to start time)
+Functions - Screen(), getSchedule(), getMovieSchedule(), updateSchedule()
+
+Seat -
+
+Fields - id (seat number), Screen*, category, status - BOOKED, NOT_BOOKED
+Functions - Seat(seatNumber, Screen, category)
+
+Show -
+
+Fields - id, Movie*, startTiming, duration, Screen*, bookings, costMap of different seats
+Functions - showSeats(), bookSeats(User*, array of seats), cancelBooking()
+
+Movie - 
+
+Fields - id, duration, title, language
+Functions - Movie(id, duration, title, language)
+
+Booking - 
+
+Fields - id, User*, Show*, array of Seats, Payment*
+Functions - Booking(id, User*, Show*, array of Seats), processPayment()
+
+User - 
+
+Fields - id, name, phone, bookings
+Functions - bookShow(array of Seats), showHistory(), cancelBooking()
+
+Payment - as usual
+
+Location - as usual
