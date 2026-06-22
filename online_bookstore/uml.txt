@@ -1,0 +1,56 @@
+Online BookStore
+
+Requirements
+
+1. User can browse books 
+2. User can purchase books
+3. User can lend books
+4. User can return books
+6. User can have a monthly membership which can be renewed
+7. User can add books to cart
+8. User can place order
+9. track order status
+10. Support Different Payment Handling Methods
+11. User can have order history
+12. user can cancel order
+
+Entities -
+
+User, Book, Cart, Order, PurchaseOrder, LendingOrder, DeliveryPartner, membership, BookStore, OrderManager, PaymentService, PaymentMethod, PaymentFactory, AssignPartnerStrategy, Review
+
+Relationships - 
+
+User has cart, list of Orders, membership
+Cart has list of books
+DeliveryPartner - list of Orders
+OrderManager has AssignPartnerStrategy
+Book has list of reviews
+
+Methods - 
+
+User - placeOrder(), lendBooks(Days) returnBooks(LendingOrder), cancelOrder(order), purchaseMembership(Membership), writeReview(Book)
+Cart - addBook(Book), removeBook(Book), calculateCost()
+DeliveryPartner - startDelivery(Order), completeDelivery(Order)
+OrderManager - assignOrder(Order), updatePurchaseOrderStatus(Order, ORDER_STATUS), updateLendingOrderStatus(LendingOrder, LENDING_ORDER_STATUS)
+PaymentService - initiatePayment(PaymentMethod, amount)
+AssignPartnerStrategy - assignPartner(Order)
+PaymentMethod - makePayment()
+Membership - isActive()
+LendingOrder - calculateFine()
+BookStore - displayBooks(), updateInventory(Book*, updatedStockNumber)
+
+Attributes - 
+
+User - id, name, Membership*, Cart*, vector<Orders*>
+Book - id, name, genre, author, ratings, reviews, cost
+Cart - id, unordered_map<int, Books*>, user_id, cost
+Order - id, user_id, cart_id, payment_id, deliveryAddress
+PurchaseOrder - extends Order have attributes ORDER_STATUS, timestamp ordered_at
+LendingOrder - extends Order have attributes LENDING_ORDER_STATUS, timestamp ordered_at, timestamp borrowed_at 
+DeliveryPartner - id, name, DELIVERY_PARTNER_STATUS, vector<Orders*>
+Membership - id, name, vector<string> benefits, cost, start_date, end_date
+BookStore - unordered_map<Books*, int>, vector<Users*>, vector<DeliveryPartner*>
+OrderManager - vector<Orders*>
+PaymentMethod - id, nameOfMethod, PAYMENT_STATUS, amount
+PaymentFactory - createPaymentMethod(PAYMENT_METHOD)
+Review - id, user_id, book_id, timestamp, string rating

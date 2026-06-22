@@ -1,0 +1,42 @@
+Ride Sharing System (Uber-like LLD)Requirements
+Users can request rides
+Drivers can accept/reject rides
+Match nearest available driver
+Track ride status
+Fare calculation based on distance/time
+Payment after ride completion
+Support ride history
+
+UML Diagram - 
+
+Entities - User, Driver, Ride, RideManager, FareCalculator, FareStrategy (abstract class), SurgeFareStrategy, DiscountFareStrategy, NormalFareStrategy, FindDriver, FindDriverStrategy (abstract class), NearestDriverStrategy, BestRatedDriverStrategy, Payment
+
+Relationships - 
+User has ride history, 
+Driver has ride history, 
+Ride has user, driver, payment, pickup location, drop location, duration, startTime, rideStatus, currentLocation
+RideManager has rides,
+FareCalculator has FareStrategy,
+FindDriver has FindDriverStrategy
+
+Methods - 
+
+User - requestRide(pickup, drop), completePayment(Payment)
+Driver - takeRideRequest(Ride), startRide(Ride), completeRide(Ride), goOffline()
+RideManager - createRide(user, pickup, drop), updateRideStatus(Ride, RIDE_STATUS)
+FareCalculator - calculateFare(ride)
+FindDriver - assignDriver(ride)
+
+Attributes - 
+
+User - id, name, pickup location, vector<Ride*> rideHistory
+Driver - id, name, DRIVER_STATUS, current location, vector<Ride*> rideHistory
+Ride - id, user, driver, payment, pickup, drop, startTime, RIDE_STATUS, duration
+RideManager - vector<Ride*> rides, FareCalculator, FindDriver
+FareCalculator - FareStrategy
+FindDriver - FindDriverStrategy
+Payment - id, amount, PAYMENT_STATUS
+
+
+
+

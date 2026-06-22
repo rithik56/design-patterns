@@ -1,0 +1,71 @@
+File sharing system
+
+Requirements - 
+
+1. user can upload file of type pdf
+2. delete file
+3. share file and folder with anyone 
+4. manage access of single file and folder
+5. add new folder inside home or another folder
+6. delete folder
+7. move file from one folder to another folder
+8. move folder
+9. upgrade their plan to increase cloud storage
+10. generate file and folder link which can be shared
+11. edit file 
+12. user can view or edit file depending on the access provided
+
+Entities - 
+
+User, Component, File, Folder, AccessList, Plan, ComponentShareService, StorageService, EditingService, ComponentStore, ComponentStoreFactory, Shareablelink
+
+Relationships - 
+
+Component HAS-A AcesssList,
+AccessList HAS-MANY users,
+StorageService HAS-MANY ComponentStore, HAS-MANY User
+Component HAS-MANY Components
+ComponentStore HAS-A Component
+Shareablelink HAS-A Component
+
+Methods - 
+
+StorageService - createUser(string name, string email), getUserComponentStorage(int user_id), changeUserPlan(plan)
+ComponentStore - uploadFile(File, Folder), createFolder(Folder), deleteComponent(Component), moveComponent(Component, Folder)
+ComponentStoreFactory - createComponentStore(plan)
+Component - updateName(name), getAccessList(), view()
+File - view () [override]
+Component - view() [override]
+EditFileService - editFile(File)
+ShareComponentService - shareComponent(Component)
+AccessList - addUser(User), removeUser(user), updateSharingMode(sharingMode)
+Shareablelink - openLink()
+
+Attributes - 
+
+User - id, name, email, Plan*
+Component - name, size
+File - blob
+Folder - vector<Component*>
+AccessList - vector<User*>, ACCESS_MODE
+Plan - id, name, size, cost
+StorageService - unordered_map<User*, ComponentStore*> storageMap
+ComponentStore - id, size, Component* home
+Shareablelink - Component*, token
+
+ENUM -
+
+PLAN_ENUM {
+    FREE,
+    PROFESSIONAL
+}
+
+ACCESS_MODE {
+    VIEW,
+    EDIT
+}
+
+
+
+
+

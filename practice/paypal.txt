@@ -1,0 +1,38 @@
+Digital Wallet - Paypal
+
+Requirements - 
+
+1. User can add Card and BankAccount into digital Wallet
+2. User can make payment from his own wallet into other wallet
+3. User can add balance and check balance in wallet
+4. maintain a history of transactions
+5. user can request payment from other user
+6. verification of pyamentMethod after adding it in wallet
+
+Entities - 
+
+User, Card, BankAccount, PaymentMethod, Wallet, Transaction, Payment
+
+Relationship - 
+
+User has a wallet
+Wallet has a list of cards, list of BankAccounts, list of transactions, list of paymentRequest and is acciated to user to which it belongs
+PaymentMethod is associated with wallet to which it belongs
+Transaction has Sender Wallet, Receiver Wallet, Payment, PaymentMethod
+Payment is associated with the transaction
+
+Methods -
+
+User - activateWallet()
+PaymentMethod - processPayment(Payment), verifyUser(User)
+Wallet - addPaymentMethod(paymentMethod), checkBalance(), addBalance(amount), makePayment(amount, paymentMethod, otherWalletAddress), requestPayment(amount, otherWalletAddress)
+
+Atributes - 
+
+User - id, name, Wallet*
+Card - cardNumber, expiryCode, cvv
+BankAccount - accountNumber, ifscCode, accountHolderName
+PaymentMethod - id, Wallet*, isVerified
+Wallet - id, User*, vector<PaymentMethod*> paymentMethods, vector<Transaction*> transactions, vector<Transaction*> transactionRequests, isActive, amount
+Transaction - id, Wallet* sender, Wallet* receiver, Payment* payment, PaymentMethod* paymentMethod, TRANSACTION_STATUS status
+Payment - id, amount, PAYMENT_STATUS status, Transaction* transaction

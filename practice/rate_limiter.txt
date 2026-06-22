@@ -1,0 +1,42 @@
+Rate Limiter (API Throttling System)
+
+Requirements
+Limit number of requests per user/API key
+Support different rate limiting strategies:
+Fixed Window
+Sliding Window
+Token Bucket
+Distributed system support
+Low latency decision (allow/deny request)
+Configurable limits per user
+
+Entities - 
+
+User,
+RateLimitConfig,
+RateLimiterService,
+RateLimitStrategy (abstract class),
+FixedWindow,
+SlidingWindow,
+TokenBucket
+
+Relationships - 
+
+User is associated with RateLimitConfig, RateLimitStrategy
+RateLimitStrategy has RateLimitConfig
+
+Methods -
+
+RateLimiterService - handleUserRequest(User*), setUserLimitConfig(User*, RateLimitConfig*, RATE_LIMITER_STRATEGY)
+RateLimitStrategy - allowRequest()
+
+Attributes - 
+
+User - id
+RateLimitConfig - maxNumberOfRequest, timeWindowInSeconds
+RateLimiterService - unordered_map<User*, RateLimitConfig*>, unordered_map<User*, RateLimiterStrategy*>
+RateLimitStrategy - RateLimitConfig
+FixedWindow - int windowRequests, int windowStartTime
+SlidingWindow - queue<timestamps>
+TokenBucket - int refillRate, int lastRequestTimestamp
+

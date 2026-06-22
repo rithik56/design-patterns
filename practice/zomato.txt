@@ -1,0 +1,60 @@
+Food Delivery System (Swiggy/Zomato)
+
+Requirements
+Users can browse restaurants
+Add items to cart and place orders
+Restaurants accept/reject orders
+Assign delivery partner
+Track order status
+Handle payments
+Maintain order history
+
+Entities - 
+
+User, 
+Partner,
+Restaurant,
+RestaurantManager,
+Item, 
+Cart, 
+Order, 
+OrderManager, 
+Payment, 
+AssignPartner, 
+AssignPartnerStrategy (abstract class),
+NearestPartnerStrategy,
+HighestRatedPartnerStrategy
+
+Relationships - 
+
+User has order history, cart
+Partner has order history
+RestaurantManager has list of restaurants,
+Restaurant has list of items,
+Cart has list of items
+Order has user, restaurant, cart, payment, ORDER_STATUS, startTime, duration
+OrderManager has orders, AssignPartner
+AssignPartner has AssignPartnerStrategy
+
+Methods - 
+
+User - browseRestaurant(drop location), placeOrder(cart), completePayment(Payment)
+Partner - startDelivery(order), completeDelivery(order), goOffline()
+RestaurantManager - findRestaurants(location)
+Restaurant - takeOrderRequest(Order)
+Cart - addItem(Item), removeItem(Item), calculateCost()
+OrderManager - createOrder(cart), updateOrderStatus(order, status)
+AssignPartner - assignPartner(order)
+
+Attributes - 
+
+User - id, Cart, vector<Order*>
+Cart - vector<Items*>
+Partner - id, PARTNER_STATUS, currLocation, vector<Order*>
+RestaurantManager - vector<Restaurant*>
+Restaurant - id, location, vector<Items*>
+Item - id, name, price
+Order - id, user, drop, restaurant, cart, startTime, duration, partner
+OrderManager - vector<Order*>, AssignPartner
+Payment - id, amount, PAYMENT_STATUS
+AssignPartner - AssignPartnerStrategy

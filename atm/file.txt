@@ -1,0 +1,37 @@
+Design an ATM
+
+Cash withdrawal
+Deposit
+Authentication
+Transaction history
+
+Entities - User, Card, Transaction, ATMMachine, Account, Bank
+Relationships - 
+
+User - vector<Cards>, vector<Accounts>, 
+Card - belongs to one user, can be a debit card or credit card, debit card is linked to one account, credit card can have transaction history and upper limit
+Transaction - can be of type withdrawal or deposit, in case of withdrawal transaction there will be one card, in case of deposit, there is one account
+ATMMachine - vector<Transactions>
+Account - vector<Transactions>, can be of type savings or current, belongs to one user, has one debit card linked to it.
+Bank - vector<ATMMachine>, vector<User>
+
+Methods -
+
+User - User(), withdrawMoney(), depositMoney(), checkBalance()
+Card - Card(), executeTransaction()
+Transaction - Transaction()
+ATMMachine - authenticateUser(), showTransactionHistory(), performTransaction(), 
+Account - Account(), executeTransaction()
+Bank - depositMoneyToAtm(), monitorATM(), handleAuthenticationRequest()
+
+Attributes - 
+
+User - id, name, vector<Cards>, vector<Accounts>
+Card - accountHolderName, cvv, expiryDate, cardNumber (abstract class)
+DebitCard - Account
+CreditCard - vector<Transactions>, upperLimit
+Transaction - id, User, timestamp, amount (abstract class)
+DepositTransaction - Account
+WithdrawalTransaction - Card
+ATMMachine - id, vector<Transactions>, location, balance, isWorking, Bank
+Bank - id, name, vector<ATMMachine>, vector<User>

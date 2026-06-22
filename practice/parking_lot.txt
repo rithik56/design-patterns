@@ -1,0 +1,57 @@
+Parking Lot System
+
+Requirements
+Multiple parking floors
+Different vehicle types (Car, Bike, Truck)
+Allocate nearest available slot
+Track entry and exit time
+Calculate parking fee based on duration
+Support multiple payment methods
+Show available slots per floor
+
+Entities - 
+
+ParkingFloor, 
+ParkingManager, 
+Vehicle, 
+Slot,
+TicketManager,
+Ticket,
+PaymentManager, 
+Payment (abstract class), 
+UPI (Payment), 
+Card (Payment)
+
+Relationships - 
+
+ParkingFloor has list of Slots,
+ParkingManager has list of ParkingFloors, 
+TicketManager has list of tickets
+Ticket has vehicle, slot
+PaymentManager has list of payments
+
+Methods - 
+
+ParkingFloor - showAvailableSlots()
+ParkingManager - allocateSlot(Vehicle)
+TicketManager - createTicket(Vehicle, slot), calculateFees(ticket)
+PaymentManager - createPayment(PAYMENT_METHOD, ticket)
+Payment - processPayment()
+
+Attributes - 
+
+ParkingFloor - id, vector<Slots*>
+ParkingManager - vector<ParkingFloor*>
+Vehicle - vehicleNumber, vehicleType
+Slot - id, SLOT_STATUS
+TicketManager - vector<Ticket*>
+Ticket - id, vehicle, slot, entryTime, exitTime, fees, PAYMENT_STATUS, paymentId
+PaymentManager - vector<Payment*>
+Payment - id, amount, PAYMENT_STATUS
+
+
+
+
+
+
+

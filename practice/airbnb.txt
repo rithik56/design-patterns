@@ -1,0 +1,66 @@
+Hotel Booking System - Airbnb
+
+Requirements - 
+
+1. user can browse properties
+2. user can book property if it is available
+3. user can act as host and list the properties as well
+4. User can rate the host, property
+5. host can rate the user
+6. handle different payment methods
+7. maintain booking history for the user
+8. cancel booking
+9. Host can accept/reject the booking request
+
+Entities ->
+
+User,
+Property,
+Host,
+Payment,
+UPI,
+Card,
+Booking,
+BookingManager,
+PaymentManager,
+Review,
+GuestReview,
+HostReview,
+PropertyReview
+
+Relationships ->
+
+User has Host, list of bookings, list of GuestReviews
+Property has host, list of bookings, list of PropertyReviews
+Host has User, list of properties, list of HostReviews, list of Bookings
+Payment has Booking
+Booking has User, Host, Property, Payment, PropertyReview, GuestReview, HostReview
+BookingManager has list of Bookings
+PaymentManager has list of payments
+GuestReview has Host, User, Booking
+HostReview has Host, User, Booking
+PropertyReview has Property, User, Booking
+
+Methods ->
+
+User - bookProperties(Location), bookProperty(Property, startDate, endDate), givePropertyReview(PropertyReview), giveHostReview(HostReview), checkIn(Booking), checkOut(Booking)
+Property - showAvailableDates(), blockDates(startDate, endDate), releaseDates(startDate, endDate), calculatePrice(startDate, endDate)
+Host - listProperty(Property), takeBookingRequest(Booking), giveGuestReview(GuestReview)
+Payment - processPayment()
+BookingManager - createBooking(user, property, startDate, endDate, numberOfGuests), updateBookingStatus(booking, BOOKING_STATUS)
+PaymentManager - createPayment(PAYMENT_METHOD, amount, Booking)
+
+Attributes ->
+
+User - id, vector<Booking*>, Host*, vector<GuestReviews*>
+Property - id, Host, vector<Booking*>, vector<PropertyReview*>, unordered_set<string> availableDates, maxNumberOfGuests, location, images, title, description, checkIn, checkOut
+Host - id, User, vector<Property*>, vector<HostReview*>
+Payment - id, amount, PAYMENT_STATUS, Booking
+Booking - id, User, Property, Host, Payment, BOOKING_STATUS, PropertyReview, GuestReview, HostReview, startDate, endDate, numberOfGuests, timestamp
+BookingManager - vector<Booking*>
+PaymentManager - vector<Payment*>
+Review - id, ratings, text, Booking
+GuestReview - Host, User
+HostReview - Host, User
+PropertyReview - Property, User
+
