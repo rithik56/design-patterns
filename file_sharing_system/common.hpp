@@ -13,6 +13,11 @@ enum ACCESS_MODE {
     EDIT
 };
 
+enum COMPONENT_INPUT {
+    FILE_INPUT,
+    FOLDER_INPUT
+};
+
 extern int userId;
 extern int planId;
 extern int linkId;

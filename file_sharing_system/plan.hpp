@@ -10,4 +10,5 @@ class Plan {
         double cost;
     public:
         Plan(int id, PLAN_ENUM name, double size, double cost);
+        double getSize();
 };

@@ -1,20 +1,22 @@
 #include "editComponent.hpp"
 #include "component.hpp"
 #include "accessList.hpp"
+#include "folder.hpp"
+#include "user.hpp"
+#include "plan.hpp"
 
-EditComponent::EditComponent(User* user, Component *component) {
+EditComponent::EditComponent(User *user, AccessList *accessList, Folder* parent)
+{
     this->user = user;
-    this->component = component;
+    this->accessList = accessList;
+    this->parent = parent;
 }
-bool EditComponent::checkAccess() {
-    if (this->component->accessList->checkUserAccess(this->user, ACCESS_MODE::EDIT)) {
+bool EditComponent::checkAccess()
+{
+    if (this->accessList->checkUserAccess(this->user, ACCESS_MODE::EDIT))
+    {
         return true;
     }
     cout << "your access seems to get revoked. Please request the access from owner" << endl;
     return false;
-}
-void EditComponent::setName(string name) {
-    if (this->checkAccess()) {
-        this->component->name = name;
-    }
 }

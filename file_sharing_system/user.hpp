@@ -12,4 +12,7 @@ class User {
         Plan* plan;
     public:
         User(int id, string name, string email, Plan* plan);
+        int getId();
+        Plan* getPlan();
+        double getAvailableLimit();
 };

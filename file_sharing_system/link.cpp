@@ -1,5 +1,6 @@
 #include "link.hpp"
 #include "accessList.hpp"
+#include "component.hpp"
 
 Link::Link(int id, string token, Component *component, AccessList *accessList, string expires_at)
 {

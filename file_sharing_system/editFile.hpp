@@ -7,7 +7,10 @@ class File;
 class User;
 
 class EditFile: public EditComponent {
+    private:
+        File* file;
     public:
         EditFile(File* file, User* user);
-        void updateComponent(string blob) override;
+        void updateComponent(string blob);
+        void setName(string name) override;
 };

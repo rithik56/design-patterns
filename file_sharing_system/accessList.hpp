@@ -11,9 +11,9 @@ class AccessList {
         User* owner; 
     public:
         AccessList(User* owner);
-        AccessList(unordered_map<User*, UserPermission*> userAccess, User* owner);
         bool checkUserAccess(User* user, ACCESS_MODE accessMode);
         void removeUser(User* user);
         void updateUserAccess(User* user, UserPermission* permission);
         unordered_map<User*, UserPermission*>& getUserAccess();
+        User* getOwner();
 };

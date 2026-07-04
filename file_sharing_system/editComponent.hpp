@@ -4,18 +4,17 @@
 
 class Component;
 class User;
+class AccessList;
+class Folder;
 
 class EditComponent
 {
 protected:
     User* user;
-    Component *component;
+    AccessList* accessList;
+    Folder* parent;
 public:
-    EditComponent(User* user, Component *component);
+    EditComponent(User* user, AccessList* accessList, Folder* parent);
     bool checkAccess();
-    void setName(string name);
-    virtual void uploadComponent(Component *component) {};
-    virtual Component* createComponent(string name) {};
-    virtual void deleteComponent(Component *component) {};
-    virtual void updateComponent(string blob) {}
+    virtual void setName(string name) = 0;
 };

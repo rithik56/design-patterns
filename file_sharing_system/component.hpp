@@ -5,6 +5,7 @@
 class AccessList;
 class User;
 class EditComponent;
+class Folder;
 
 class Component {
     protected:
@@ -13,11 +14,16 @@ class Component {
         AccessList* accessList;
         string created_at;
         string updated_at;
+        Folder* parent;
     public:
-        friend class EditComponent;
-        Component(string name);
+        Component(string name, Folder* parent, User* owner);
         virtual void view(User* user) = 0;
         virtual EditComponent* edit(User* user) = 0;
         string getName();
+        bool checkAccess(User* user, ACCESS_MODE mode);
+        void setName(string name);
+        void updateSize(double diff);
+        double getSize();
         AccessList* getAccessList();
+        Folder* getParent();
 };

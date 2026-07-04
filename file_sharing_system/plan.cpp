@@ -6,3 +6,7 @@ Plan::Plan(int id, PLAN_ENUM name, double size, double cost) {
     this->size = size;
     this->cost = cost;
 }
+
+double Plan::getSize() {
+    return this->size;
+}
