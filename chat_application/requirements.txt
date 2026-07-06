@@ -1,0 +1,64 @@
+Chat Application - 
+
+Requirements -
+
+1. User can create a profile
+2. User can send a message to another profile or group
+3. User can create a group
+4. User can exit a group
+5. User can archive the Chat
+6. User can delete the chat history
+7. User can send any media attached with message
+8. online / offline status
+9. User can react to the message
+10. User can see the message status
+11. Admin Status handling in group
+
+Entities ->
+
+1. User
+2. profile
+3. Chat
+4. GroupChat
+5. message
+6. ProfileService
+7. ChatService
+8. IndividualChat
+9. Reaction
+10. Media
+
+Relationships -> 
+
+Profile has a User
+Profile has list of Chats (individual and group)
+ProfileService has list of profiles 
+ChatService has list of Chats
+Chat has list of messages, list of users
+Reaction has a user
+
+Methods -> 
+
+Profile - getUser(), getMainChats(), getArchiveChats(), getId(), getStatus(), moveChatToArchiveTray(Chat chat), moveChatToMainTray(Chat chat), deleteChat(Chat chat)
+ChatService - createGroup(string name, unordered_map<User*, bool> users), sendMessage(User user, Message message, Chat chat), createChat(User user1, User user2), reactToMessage(Message message, Chat chat, Reaction reaction), removeReaction(Message message, Chat chat, Reaction reaction)
+Chat - getChatHistory(), getId(), clearChatHistory()
+GroupChat - exitGroup(User user), addUser(User user), makeAdmin(User user), removeAdmin(User user), renameGroup(string name)
+Message - getId(), getText(), getTimestamp(), updateStatus()
+ProfileService - createProfile(User user), deleteProfile(User user)
+Media - render()
+
+Entities -> 
+
+User - string name, string place, string gender, string profile_pic
+Profile - id, User user, vector<Chat> chats
+ProfileService - unordered_map<User*, Profile*> profiles
+ChatService - unordered_map<int, Chat*> chats
+Chat - vector<Message> messages, User user1
+GroupChat - vector<User> users
+IndividualChat - User user2
+Message - id, string txt, User sender, unordered_set<User> notDelivered, unordered_set<User> delivered, unordered_set<User> read, MESSAGE_STATUS status, vector<Media> media, vector<Reaction> reactions
+Reaction - User user, EMOJI emoji
+Media - MEDIA_TYPE, string url
+
+MESSAGE_STATUS - DELIVERED, NOT_DELIVERED, READ
+EMOJI - LAUGHING, SAD, CRYING, BLESSED
+MEDIA_TYPE - VIDEO, IMAGE
