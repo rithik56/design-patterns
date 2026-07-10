@@ -1,0 +1,73 @@
+Social Media Platform
+
+Requirements - 
+
+1. user can create a profile
+2. user can watch the friends post in personal feed
+3. user can like the post, comment on it 
+4. user can send a friend request to another profile
+5. user can create a new post with media such as image and video
+6. user can delete the existing post
+7. user can unfriend another profile
+8. user can search for profiles
+9. user can accept/reject the friend request
+
+Entities - 
+
+2. Profile
+4. ProfileService
+5. PostService
+6. Post
+9. Feed
+10. Media
+11. Comment
+12. Like
+13. LikeService
+14. CommentService
+15. MediaService
+16. FeedService
+17. FriendRequest
+18. SearchService
+19. Likeable
+20. Commentable
+21. FriendRequestService
+
+Relationships - 
+
+Profile has Posts, has Profiles, has Feed 
+Post has Media's, has Comments, has Likes, has Profile
+Comment has Profile
+Like has Profile
+Feed has Posts
+MediaService has Media's
+FriendRequest has sender Profile, has receiver Profile
+SearchService has Profiles
+
+Methods - 
+
+ProfileService - Profile createProfile(string email, string password)
+PostService - void createPost(string description, vector<Media> media, Profile createdBy), void deletePost(Post post, Profile profile)
+LikeService - void like(Likeable likeable, Profile createdBy), void unlike(Likeable likeable, Profile createdBy)
+CommentService - void comment(Commentable commentable, Profile createdBy), void deleteComment(Commentable commentable, Comment comment, Profile createdBy)
+MediaService - string save(Media media)
+FeedService - vector<Post> generateFeed(Profile profile)
+SearchService - vector<Profile> searchProfiles(string keyword)
+FriendRequestService - createFriendRequest(Profile sender, Profile receiver), acceptFriendRequest(Profile receiver, FriendRequest request), rejectFriendRequest(Profile receiver, FriendRequest request), unfriend(Profile sender, Profile receiver)
+Likeable - vector<Like> getLikes()
+Commentable - vector<Comment> getComments()
+
+Entities - 
+
+Profile - string id, string email, string password, vector<Post> posts, vector<FriendRequest> friendRequests, string lastSeen, vector<Profile> friends, Feed feed
+Post - string id, string description, vector<string> urls, Profile createdBy, string createdAt, vector<Like> likes, vector<Comment> comments
+Feed - vector<Post> posts
+Media - string blob
+Comment - string id, string description, Profile createdBy, string createdAt
+Like - string id, Profile createdBy
+MediaService - map<url, blob> medias
+SearchService - map<string, Profile> profiles
+FriendRequest - Profile sender, Profile reciever, FRIEND_STATUS status 
+
+Enums - 
+
+FRIEND_STATUS - PENDING, ACCEPTED, REJECTED
