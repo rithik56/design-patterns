@@ -66,5 +66,6 @@ func main() {
 	paymentStatusUpdateService := NewPaymentStatusUpdateService(paymentService, orderService, paymentRetryService, notificationService, paymentMetricsTrackerService)
 	webhookConsumer := NewWebhookConsumer(paymentStatusUpdateService)
 	webhookConsumer.onMessage(webhookResponse)
+	// order 1 details &{b3a23661-c61d-4edb-a705-23b28c752bc6 1000 INR PAYMENT_SUCCESS [0x38a3eca32090] 30/07/2026 30/07/2026 map[sku_123:2 sku_456:1]}
 	fmt.Println("order 1 details", order1)
 }

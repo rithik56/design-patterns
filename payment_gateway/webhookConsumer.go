@@ -9,7 +9,9 @@ type WebhookConsumer struct {
 }
 
 func NewWebhookConsumer(PaymentStatusUpdateService *PaymentStatusUpdateService) *WebhookConsumer {
-	return &WebhookConsumer{}
+	return &WebhookConsumer{
+		PaymentStatusUpdateService,
+	}
 }
 
 func (w *WebhookConsumer) onMessage(event *WebhookResponse) {
