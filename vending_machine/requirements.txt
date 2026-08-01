@@ -1,0 +1,63 @@
+Vending Machine
+
+Requirements - 
+
+2. add/remove items in the cart
+3. do checkout and make the payment
+4. inventory updated once the items are dispatched after successful payment
+5. support different payment methods
+6. cancel the transaction after checking out
+7. machine should process one request at a time
+
+Entities - 
+
+VendingMachine
+Cart
+Item
+Payment - interface
+CardPayment - (implements Payment)
+CashPayment - (implements Payment)
+PaymentFactory
+Transaction
+TransactionManager
+VendingMachineState - interface
+ReadyState - (implements VendingMachineState)
+CancelledState - (implements VendingMachineState)
+CheckoutState - (implements VendingMachineState)
+PaymentProcessingState - (implements VendingMachineState)
+DispatchState -  (implements VendingMachineState)
+
+Relationships - 
+
+VendingMachine HAS-A Cart, HAS-A VendingMachineState, HAS-MANY Items
+Cart HAS-MANY Item
+PaymentFactory HAS-MANY Payment
+TransactionManager HAS-MANY Transaction
+Transaction HAS-A Payment, HAS-MANY Item
+VendingMachineState HAS-A VendingMachine
+
+Methods - 
+
+VendingMachine - Transaction checkout(), void showItems(), void updateInventory(unordered_map<int, Item> items), void cancelTransaction(Transaction transaction), void processPayment(Payment payment), void dispatchItems(), void addItem(Item item), void removeItem(Item item)
+TransactionManager - createTransaction(Cart cart)
+Cart - int calculateAmount()
+VendingMachineState - Transaction checkout(), void cancelTransaction(Transaction transaction), void dispatchItems(), void processPayment(Payment payment)
+PaymentManager - createPayment(int amount, PAYMENT_METHOD method)
+Payment - PAYMENT_STATUS processPayment()
+
+Entities - 
+
+VendingMachine - Cart cart, VendingMachineState state, unordered_map<Item, int> items
+Cart - unordered_map<Item, int> items
+PaymentFactory - unordered_map<int, Payment> payments
+TransactionManager - unordered_map<int, Transaction> transactions
+Transaction - int id, int amount, Payment payment, TRANSACTION_STATUS status, unordered_map<Item, int> items, timestamp created_at
+Payment - int id, PAYMENT_STATUS status, int transactionId, int amount
+VendingMachineState - VendingMachine machine
+
+Enums -
+
+PAYMENT_METHOD - UPI, CASH
+PAYMENT_STATUS - PENDING, PROCESSING, FAILED, SUCCESS 
+TRANSACTION_STATUS - INITIATED, CANCELLED, PAYMENT_PENDING, SUCCESSFUL, PAYMENT_FAILED
+

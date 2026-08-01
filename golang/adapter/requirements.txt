@@ -1,0 +1,29 @@
+// implement adaptor design pattern
+
+// Graph Library works with XML data 
+// JsonGraphAdaptor implements target interface which converts data from JSON to XML before passing the call to adaptee
+// SoapGraphAdaptor  ------
+// Client code works with 
+
+// define a target interface which the client expects - Target
+// define a service class which is incompatible with the client - Adaptee
+// define a adapter class which is which wraps the adaptee and implements the target interface by usually doing some extra steps to make it compatible - Adapter
+// Client code which works with target interface
+
+Target Interface - 
+
+Interface PaymentProcessor {
+    void pay(double amount)
+}
+
+// we cannot change stripe's code and we don't want to change the client code to use charge instead of pay
+StripeSDK {
+    void charge(double amount)
+}
+
+StripeSDKAdapter implements PaymentProcessor {
+    StripeSDK stripeSDK;
+    void pay(double amount) override {
+        this->stripeSDK.charge(amount)
+    }
+}
