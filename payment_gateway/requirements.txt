@@ -1,0 +1,102 @@
+Payment Service - 
+
+Requirements - 
+
+1. User can create a payment order
+2. support different types of payment service provider - razorpay, stripe (adapter pattern)
+3. track payment status 
+4. seamless plug and play support for payment service provider
+5. retry failed payment
+6. reconcillation job for pending payment
+7. event driven mechanism for receiving and processing webhook response
+8. route to different payment service provider on the basis of real-time success rate, failover condition (strategy pattern)
+9. Notify user in case of successful payment
+
+Entities - 
+
+CheckoutResponse
+PaymentServiceProviderFactory
+PaymentServiceProvider (interface)
+RazorpayServiceProviderAdapter
+PayUServiceProviderAdapter
+Order
+OrderService
+PaymentGatewayOrchestrator
+PaymentServiceRoutingStrategy (interface)
+PaymentServiceRoutingSuccessStrategy 
+PaymentServiceRoutingVolumeStrategy
+NotificationService (interface)
+NotificationFactory
+EmailNotificationService
+Notification
+WebHookResponse
+Payment
+PaymentService
+PaymentRetryService
+OrderMetadata
+ReconcillationJob
+PaymentMetricsTracker
+WebhookController
+WebHookProducer
+WebhookConsumer
+StatusCounter
+PaymentStatusUpdateService
+
+Relationships - 
+
+OrderService HAS-MANY Order, HAS-A PaymentGatewayOrchestrator
+PaymentGatewayOrchestrator HAS-A PaymentServiceRoutingStrategy
+PaymentServiceRoutingStrategy HAS-A PaymentServiceProviderFactory
+PaymentServiceProviderFactory HAS-MANY PaymentServiceProvider
+NotificationService HAS-MANY Notification
+Order HAS-MANY Payment
+PaymentRetryService HAS-A PaymentGatewayOrchestrator, 
+ReconcillationJob HAS-A PaymentStatusUpdateService, HAS-A PaymentServiceProviderFactory, HAS=A PaymentService
+WebhookController HAS-A WebhookProducer
+WebhookConsumer HAS-A PaymentStatusUpdateService
+PaymentServiceRoutingSuccessStrategy HAS-A PaymentMetricsTracker
+PaymentMetricsTracker HAS-MANY StatusCounter
+PaymentStatusUpdateService HAS-A PaymentService, HAS-A OrderService, HAS-A PaymentRetryService, HAS-A NotificationFactory, HAS-A PaymentMetricsTracker
+NotificationFactory HAS-MANY NotificationService
+
+Methods -
+
+OrderService - Order createOrder(int amount, string currency, unordered_map<string, int> products) 
+PaymentServiceProvider - CheckoutResponse createIntent(string order_id, string payment_id), void webhookHandler(WebhookResponse response), PAYMENT_STATUS checkStatus(string checkout_response_id)
+PaymentGatewayOrchestrator - PaymentServiceProvider route(Order order)
+PaymentServiceRoutingStrategy - PaymentServiceProvider route(Order order)
+NotificationService - void notify(string msg, Order order)
+PaymentService - Payment createPayment(int amount, string currency, string order_id)
+PaymentServiceProviderFactory - vector<PaymentServiceProvider> getPaymentServiceProviders(), PaymentServiceProvider getPaymentServiceProviderById(string payment_service_provider_id)
+PaymentRetryService - PaymentServiceProvider retryPayment(string payment_id)
+ReconcillationJob - void runReconcillation()
+WebhookController - void receiveWebhook(WebhookResponse request)
+WebhookProducer - void publish(WebhookResponse event)
+WebhookConsumer - void onMessage(WebhookResponse event)
+PaymentMetricsTracker - void recordResult(string payment_service_provider_id, PAYMENT_STATUS status), double getSuccessRate(string payment_service_provider_id, string duration)
+PaymentStatusUpdateService - updateStatus(string payment_id, PAYMENT_STATUS status)
+NotificationFactory - notifyUser(string msg, Order order, NOTIFICATION_CHANNEL channel)
+
+Attributes - 
+
+CheckoutResponse - PAYMENT_STATUS payment_status, string checkout_response_id, OrderMetadata metadata, int amount, string curr
+Order - string order_id, int amount, string currency, unordered_map<string, int> products, ORDER_STATUS order_status, vector<Payment> paymentAttempts, string created_at, string updated_at
+OrderService - PaymentGatewayOrchestrator paymentGatewayOrchestrator, unordered_map<string, Order> orders
+PaymentGatewayOrchestrator - PaymentServiceRoutingStrategy strategy
+Notification - string notification_id, string msg, NOTIFICATION_STATUS status, NOTIFICATION_CHANNEL channel, string timestamp
+NotificationService - unordered_map<string, Notification> notifications
+WebhookResponse - string event_name, string order_id, string checkout_response_id, string payment_id
+Payment - string payment_id, int amount, string currency, PAYMENT_STATUS status, string checkout_response_id, string order_id, string created_at, string updated_at, string payment_service_provider_id
+PaymentService - unordered_map<string, Payment> payments
+OrderMetadata - string order_id, int amount, string currency
+PaymentRetryService - int maxAttempts
+PaymentMetricsTracker - unordered_map<string, StatusCounter> metrics
+StatusCounter - int success_count, int failure_count, string window_start
+NotificationFactory - unordered_map<NOTIFICATION_CHANNEL, NotificationService> services
+
+Enums - 
+
+PAYMENT_STATUS - PENDING, SUCCESS, FAILED
+ORDER_STATUS - CREATED, PAYMENT_PENDING, PAYMENT_SUCCESS, PAYMENT_FAILED
+NOTIFICATION_STATUS - PENDING, SUCCESS, FAILED
+NOTIFICATION_CHANNEL - EMAIL, SMS
